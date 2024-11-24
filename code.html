@@ -1,1 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Assistance System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        select, input, button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #medication-times-container label,
+        #medication-times-container input {
+            width: calc(50% - 10px);
+            display: inline-block;
+            margin-right: 10px;
+        }
+        #medication-times-container input:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Patient Assistance System</h1>
+    <form id="medication-form" method="post" action="/submit-form">
+        <!-- Slot Number Selection -->
+        <label for="slot-number">Select Slot Number:</label>
+        <select id="slot-number" name="slot_number" required>
+            <option value="" disabled selected>Select a slot</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+
+        <!-- Number of Medications Selection -->
+        <label for="num-medications">Number of Medications in a Day:</label>
+        <select id="num-medications" name="num_medications" required>
+            <option value="" disabled selected>Select number of medications</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+
+        <!-- Container for Dynamically Added Fields -->
+        <div id="medication-times-container"></div>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        // JavaScript to dynamically add medication time fields
+        document.getElementById('num-medications').addEventListener('change', function () {
+            const numMedications = parseInt(this.value, 10);
+            const container = document.getElementById('medication-times-container');
+            container.innerHTML = ''; // Clear previous fields
+
+            for (let i = 1; i <= numMedications; i++) {
+                const label = document.createElement('label');
+                label.textContent = `Time for Medication ${i}:`;
+                label.setAttribute('for', `medication-time-${i}`);
+
+                const input = document.createElement('input');
+                input.type = 'time';
+                input.name = `medication_time_${i}`;
+                input.id = `medication-time-${i}`;
+                input.required = true;
+
+                container.appendChild(label);
+                container.appendChild(input);
+            }
+        });
+    </script>
+</body>
+</html>
 
